@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Bir Şey Var</title>
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background: #000;
+    color: #fff;
+    font-family: system-ui, -apple-system, Segoe UI, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  #text {
+    position: absolute;
+    bottom: 30%;
+    font-size: 28px;
+    text-align: center;
+    white-space: nowrap;
+    border-right: 2px solid white;
+    opacity: 0;
+  }
+
+  #image {
+    position: absolute;
+    max-width: 80%;
+    max-height: 80%;
+    opacity: 0;
+    transition: opacity 1s ease;
+  }
+</style>
+</head>
+<body>
+
+<div id="text"></div>
+<img id="image" src="foto.jpg" alt="">
+
+<script>
+const messages = [
+  "Hayatta her şey istediğimiz gibi olmaz.",
+  "Çünkü olsaydı ne amacımız kalırdı?",
+  "Fakat bu günün özel bir anlamı var...",
+  "365 gün içinde en özeli ve en özel kişiye benden bir hediye"
+];
+
+const textEl = document.getElementById("text");
+const imgEl = document.getElementById("image");
+
+let msgIndex = 0;
+let charIndex = 0;
+const typeSpeed = 60;
+
+function typeMessage() {
+  textEl.style.opacity = 1;
+  if (charIndex < messages[msgIndex].length) {
+    textEl.textContent += messages[msgIndex].charAt(charIndex);
+    charIndex++;
+    setTimeout(typeMessage, typeSpeed);
+  } else {
+    setTimeout(eraseMessage, 2000);
+  }
+}
+
+function eraseMessage() {
+  if (charIndex > 0) {
+    textEl.textContent = textEl.textContent.slice(0, -1);
+    charIndex--;
+    setTimeout(eraseMessage, typeSpeed / 2);
+  } else {
+    msgIndex++;
+    if (msgIndex < messages.length) {
+      setTimeout(typeMessage, 2000);
+    } else {
+      showImage();
+    }
+  }
+}
+
+function showImage() {
+  textEl.style.opacity = 0;
+  imgEl.style.opacity = 1;
+  setTimeout(() => {
+    imgEl.style.opacity = 0;
+  }, 3000);
+}
+
+setTimeout(typeMessage, 1000);
+</script>
+
+</body>
+</html>
